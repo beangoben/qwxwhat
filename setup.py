@@ -17,5 +17,4 @@ setup(name='qwxwhat',
       author='',
       author_email='',
       license='MIT',
-      packages=['qwxwhat'],
       zip_safe=False)
