@@ -1,6 +1,6 @@
-__version__ = "0.1"
+__version__ = "0.1.1"
 
-from pythonwhat.sct_syntax import *
+from pythonwhat.check_syntax import *
 
 
 @state_dec
