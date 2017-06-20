@@ -1,6 +1,6 @@
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
-from sqlwhat.check_syntax import *
+from pythonwhat.check_syntax import *
 
 
 # error messages
