@@ -1,4 +1,4 @@
-__version__ = "0.1.6"
+__version__ = "0.2.1"
 
 from pythonwhat.check_syntax import state_dec, Ex
 import numpy as np
@@ -38,10 +38,11 @@ def check_numpy_array(name, state=None):
     # return object state for chaining
     return obj
 
+
 @state_dec
 def check_function_call(name, state=None):
     obj = Ex(state).test_student_typed(
-        "{}\s*\(".format(name), not_typed_msg=func_msg.format(func))
+        "{}\s*\(".format(name), not_typed_msg=FUNC_MSG.format(func))
     return obj
 
 
@@ -56,9 +57,9 @@ def test_exercise(func_defs={}, arrays=[], floats=[], func_calls=[],
         Ex(state) >> check_numpy_array(name)
 
     # floating values
-    for i in floats:
-        Ex(state).check_object(i).has_equal_value(
-            expr_code=CONTENTS_EXPR.format(i), incorrect_msg=FLOAT_MSG)
+    for name in floats:
+        Ex(state).check_object(name).has_equal_value(
+            expr_code=CONTENTS_EXPR.format(name), incorrect_msg=FLOAT_MSG)
 
     # function calls via re
     for func in func_calls:
