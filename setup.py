@@ -10,11 +10,11 @@ with open('qwxwhat.py', 'rb') as f:
 
 setup(name='qwxwhat',
       version=version,
-      description='QuantumWorldX tests',
-      url='',
+      description="QuantumWorldX's pythonwhat test for datacamp- high level SCTs",
+      url='https://pythonhosted.org/quantumworldX/',
       py_modules=['qwxwhat'],
-      install_requires=['pythonwhat'],
-      author='',
-      author_email='',
+      install_requires=['pythonwhat>=2.7'],
+      author='Benjamin Sanchez-Lengeling',
+      author_email='beangoben@gmail.com',
       license='MIT',
       zip_safe=False)
