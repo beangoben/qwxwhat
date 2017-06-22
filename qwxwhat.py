@@ -42,7 +42,7 @@ def check_numpy_array(name, state=None):
 @state_dec
 def check_function_call(name, state=None):
     obj = Ex(state).test_student_typed(
-        "{}\s*\(".format(name), not_typed_msg=FUNC_MSG.format(func))
+        "{}\s*\(".format(name), not_typed_msg=FUNC_MSG.format(name))
     return obj
 
 
