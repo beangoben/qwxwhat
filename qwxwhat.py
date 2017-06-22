@@ -10,8 +10,8 @@ SHAPE_MSG = "__JINJA__: **shape** **mismatch**: expected `{{sol_eval}}`, got `{{
 SHAPE_EXPR = '{:s}.shape'
 CONTENTS_MSG = "__JINJA__: **solution** **contents** are different. Rounded to 4 decimal places, we expected `{{sol_eval}}`, got `{{stu_eval}}`."
 CONTENTS_EXPR = 'np.round({:s}, decimals = 4)'
-
 FUNC_MSG = "Did you forget to use `{}`?"
+FLOAT_MSG = 'Contents differ from solution.'
 
 
 @state_dec
@@ -38,39 +38,29 @@ def check_numpy_array(name, state=None):
     # return object state for chaining
     return obj
 
-
 @state_dec
-def check_exercise(arrays, state=None):
+def check_function_call(name, state=None):
+    obj = Ex(state).test_student_typed(
+        "{}\s*\(".format(name), not_typed_msg=func_msg.format(func))
+    return obj
+
+
+def test_exercise(func_defs={}, arrays=[], floats=[], func_calls=[],
+                  state=None):
+    # check function definitions
+    for i, v in func_defs.items():
+        Ex(state).test_function_definition(i, results=v)
+
+    # numpy arrays
     for name in arrays:
         Ex(state) >> check_numpy_array(name)
+
+    # floating values
+    for i in floats:
+        Ex(state).check_object(i).has_equal_value(
+            expr_code=CONTENTS_EXPR.format(i), incorrect_msg=FLOAT_MSG)
+
+    # function calls via re
+    for func in func_calls:
+        Ex(state) >> check_function_call(func)
     return
-
-
-def test_exercise(arrays, state=None):
-    for name in arrays:
-        Ex(state) >> check_numpy_array(name)
-    return
-# def check_function_call(name, state=None):
-#     Ex(state).test_student_typed("{}\s*\(".format(name), not_typed_msg=func_msg.format(func))
-#     return
-
-# # check function definitions
-# for i, v in func_defs.items():
-#     Ex().test_function_definition(i, results=v)
-# # floating values
-# for i in float_vars:
-#     Ex().check_object(i).has_equal_value(expr_code=contents_expr.format(
-#         i), incorrect_msg='Contents differ from solution.')
-# # check numpy vars
-# for key in numpy_vars:
-#     Ex().check_object(key)  \
-#         .has_equal_value(expr_code=type_expr.format(key), incorrect_msg=type_msg)  \
-#         .has_equal_value(expr_code=shape_expr.format(key), incorrect_msg=shape_msg) \
-#         .has_equal_value(expr_code=contents_expr.format(key), incorrect_msg=contents_msg)
-# # function calls via re
-# for func in func_calls:
-
-
-# def test_numpy(state, key):
-
-#     return state
