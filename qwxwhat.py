@@ -1,4 +1,4 @@
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 from pythonwhat.check_syntax import state_dec, Ex
 import numpy as np
@@ -24,7 +24,7 @@ def check_numpy_array(name, state=None):
     # check if is defined
     obj = Ex(state).check_object(name)
     # check if it has same type of variable
-    obj.has_equal_value(expr_code=TYPE_EXPR.format(key),
+    obj.has_equal_value(expr_code=TYPE_EXPR.format(name),
                         incorrect_msg=TYPE_MSG)
     # check if it has the same shape
     obj.has_equal_value(expr_code=SHAPE_EXPR.format(name),
