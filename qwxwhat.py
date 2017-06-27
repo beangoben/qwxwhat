@@ -9,10 +9,9 @@ TYPE_EXPR = 'type({:s})'
 SHAPE_MSG = "__JINJA__: **shape** **mismatch**: expected `{{sol_eval}}`, got `{{stu_eval}}`."
 SHAPE_EXPR = '{:s}.shape'
 CONTENTS_MSG = "__JINJA__: **solution** **contents** are different. Rounded to 4 decimal places, we expected `{{sol_eval}}`, got `{{stu_eval}}`."
-FLOAT_MSG = "__JINJA__: **solution** **contents** for are different for {:s}.`."
 CONTENTS_EXPR = 'np.round({:s}, decimals = 4)'
 FUNC_MSG = "Did you forget to use `{}`?"
-FLOAT_MSG = 'Contents differ from solution.'
+FLOAT_MSG = "__JINJA__: **solution** **contents** for are different for {:s}.`."
 
 
 @state_dec
