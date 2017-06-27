@@ -1,4 +1,4 @@
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 from pythonwhat.check_syntax import state_dec, Ex
 import numpy as np
@@ -9,6 +9,7 @@ TYPE_EXPR = 'type({:s})'
 SHAPE_MSG = "__JINJA__: **shape** **mismatch**: expected `{{sol_eval}}`, got `{{stu_eval}}`."
 SHAPE_EXPR = '{:s}.shape'
 CONTENTS_MSG = "__JINJA__: **solution** **contents** are different. Rounded to 4 decimal places, we expected `{{sol_eval}}`, got `{{stu_eval}}`."
+FLOAT_MSG = "__JINJA__: **solution** **contents** for are different for {:s}.`."
 CONTENTS_EXPR = 'np.round({:s}, decimals = 4)'
 FUNC_MSG = "Did you forget to use `{}`?"
 FLOAT_MSG = 'Contents differ from solution.'
@@ -38,6 +39,24 @@ def check_numpy_array(name, state=None):
 
 
 @state_dec
+def check_float_value(name, state=None):
+    """Test a float.
+
+     Args:
+         name: name of the object to be tested.
+     """
+    # check if is defined
+    obj = Ex(state).check_object(name)
+    # check if it has same type of variable
+    obj.has_equal_value(expr_code=TYPE_EXPR.format(name),
+                        incorrect_msg=TYPE_MSG)
+    # check if it has the same value
+    obj.has_equal_value(expr_code=CONTENTS_EXPR.format(name),
+                        incorrect_msg=FLOAT_MSG.format(name))
+    return obj
+
+
+@state_dec
 def check_function_call(name, state=None):
     obj = Ex(state).test_student_typed(
         "{}\s*\(".format(name), not_typed_msg=FUNC_MSG.format(name))
@@ -56,8 +75,7 @@ def test_exercise(func_defs={}, arrays=[], floats=[], func_calls=[],
 
     # floating values
     for name in floats:
-        Ex(state).check_object(name).has_equal_value(
-            expr_code=CONTENTS_EXPR.format(name), incorrect_msg=FLOAT_MSG)
+        Ex(state) >> check_float_value(name)
 
     # function calls via re
     for func in func_calls:
