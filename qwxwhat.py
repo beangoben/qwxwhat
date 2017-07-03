@@ -1,4 +1,4 @@
-__version__ = "0.4.4"
+__version__ = "0.4.5"
 
 from pythonwhat.check_syntax import state_dec, Ex
 import numpy as np
