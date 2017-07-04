@@ -1,4 +1,4 @@
-__version__ = "0.4.5"
+__version__ = "0.5.0"
 
 from pythonwhat.check_syntax import state_dec, Ex
 import numpy as np
@@ -13,7 +13,7 @@ CONTENTS_MSG = "__JINJA__: **solution** **contents** are different acoording to 
 FUNC_CALL_MSG = "Did you forget to use `{}`?"
 FLOAT_MSG = "__JINJA__: **solution** **contents** for {:s} are different acoording to numpy.allclose.`."
 FUNC_TEST_MSG = "FMT:Calling it with arguments `({:s})` should result in `{{str_sol}}`, instead got `{{str_stu}}`."
-CHEAT_MSG = "You cannot use the provided test function `{}` in your solution!"
+CHEAT_MSG = "You cannot use the provided test function `{}` in your solution!!"
 
 
 @state_dec
@@ -68,7 +68,7 @@ def check_function_call(name, state=None):
 @state_dec
 def check_testfunction_call(name, state=None):
     obj = Ex(state).test_not(test_student_typed(
-        "{:s}\s*\(".format(name)), msg=CHEAT_MSG)
+        "{:s}\s*\(".format(name)), msg=CHEAT_MSG.format(name))
 
     return obj
 
@@ -81,9 +81,9 @@ def check_function_definition(name, v, state=None):
     obj = Ex(state).check_function_def(name)
     for vi in v:
         arg_string = str(vi).replace("[", "").replace("]", "")
-        obj.call(vi).has_equal_value(func=lambda x,
-                                     y: np.allclose(x, y, rtol=1e-04, atol=1e-05),
-                                     incorrect_msg=FUNC_TEST_MSG.format(arg_string))
+        obj.call(vi,
+                 func=lambda x, y: np.allclose(x, y, rtol=1e-04, atol=1e-05),
+                 incorrect_msg=FUNC_TEST_MSG.format(arg_string))
     return obj
 
 
@@ -105,8 +105,9 @@ def test_exercise(func_defs={}, arrays=[], floats=[], func_calls=[],
     for func in func_calls:
         Ex(state) >> check_function_call(func)
 
-    for indx in range(len(func_defs)):
-        name = 'test_function{:d}'.format(indx + 1)
+    # check against test functions
+    for i, v in func_defs.items():
+        name = 'test_{:si}'.format(i)
         Ex(state) >> check_testfunction_call(name)
 
     return
