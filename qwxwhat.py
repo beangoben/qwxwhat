@@ -1,6 +1,8 @@
-__version__ = "0.5.0"
+__version__ = "0.5.2"
 
 from pythonwhat.check_syntax import state_dec, Ex
+from pythonwhat.test_funcs import test_student_typed
+from pythonwhat.check_funcs import test_not
 import numpy as np
 
 # ERROR messages
