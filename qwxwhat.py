@@ -1,4 +1,4 @@
-__version__ = "0.5.2"
+__version__ = "0.5.3"
 
 from pythonwhat.check_syntax import state_dec, Ex
 from pythonwhat.test_funcs import test_student_typed
@@ -108,8 +108,8 @@ def test_exercise(func_defs={}, arrays=[], floats=[], func_calls=[],
         Ex(state) >> check_function_call(func)
 
     # check against test functions
-    for i, v in func_defs.items():
-        name = 'test_{:s}'.format(i)
-        Ex(state) >> check_testfunction_call(name)
+    #for i, v in func_defs.items():
+    #    name = 'test_{:s}'.format(i)
+    #    Ex(state) >> check_testfunction_call(name)
 
     return
