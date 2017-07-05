@@ -13,7 +13,7 @@ CONTENTS_MSG = "__JINJA__: **solution** **contents** are different acoording to 
 FUNC_CALL_MSG = "Did you forget to use `{}`?"
 FLOAT_MSG = "__JINJA__: **solution** **contents** for {:s} are different acoording to numpy.allclose.`."
 FUNC_TEST_MSG = "FMT:Calling it with arguments `({:s})` should result in `{{str_sol}}`, instead got `{{str_stu}}`."
-CHEAT_MSG = "You cannot use the provided test function `{}` in your solution!!"
+CHEAT_MSG = "You cannot use the provided test function `{:s}` in your solution!!"
 
 
 @state_dec
@@ -107,7 +107,7 @@ def test_exercise(func_defs={}, arrays=[], floats=[], func_calls=[],
 
     # check against test functions
     for i, v in func_defs.items():
-        name = 'test_{:si}'.format(i)
+        name = 'test_{:s}'.format(i)
         Ex(state) >> check_testfunction_call(name)
 
     return
