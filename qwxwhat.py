@@ -1,4 +1,4 @@
-__version__ = "0.5."
+__version__ = "0.5.5"
 
 from pythonwhat.check_syntax import state_dec, Ex
 from pythonwhat.test_funcs import test_student_typed
